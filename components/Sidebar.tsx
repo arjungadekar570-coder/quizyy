@@ -1,17 +1,11 @@
 "use client";
 
-import { History, User, Plus } from "lucide-react";
+import { User, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
-
-const mockHistory = [
-  "Capital of France",
-  "React Hooks Guide",
-  "WW2 Timeline",
-  "Photosynthesis Basics",
-  "Quantum Mechanics",
-];
+import { HistoryList } from "@/components/HistoryList";
+import Link from "next/link";
 
 export function Sidebar() {
   return (
@@ -24,10 +18,12 @@ export function Sidebar() {
       </div>
 
       <div className="px-4 py-2">
-        <Button className="w-full justify-start gap-2" variant="outline">
-          <Plus className="w-4 h-4" />
-          New Quiz
-        </Button>
+        <Link href="/">
+          <Button className="w-full justify-start gap-2" variant="outline">
+            <Plus className="w-4 h-4" />
+            New Quiz
+          </Button>
+        </Link>
       </div>
 
       <div className="flex-1 overflow-hidden flex flex-col">
@@ -35,18 +31,8 @@ export function Sidebar() {
           History
         </div>
         <ScrollArea className="flex-1 px-2">
-          <div className="space-y-1">
-            {mockHistory.map((item, i) => (
-              <Button
-                key={i}
-                variant="ghost"
-                className="w-full justify-start font-normal text-sm overflow-hidden text-ellipsis whitespace-nowrap"
-              >
-                <History className="w-4 h-4 mr-2 shrink-0" />
-                {item}
-              </Button>
-            ))}
-          </div>
+          {/* Realtime history from Convex — updates automatically */}
+          <HistoryList />
         </ScrollArea>
       </div>
 
