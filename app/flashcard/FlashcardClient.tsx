@@ -31,7 +31,7 @@ export default function FlashcardClient({ flashcards }: FlashcardClientProps) {
   const [current, setCurrent] = useState(0);
 
   return (
-    <div className="min-h-screen bg-background text-foreground flex flex-col">
+    <div className="min-h-screen bg-background text-foreground flex flex-col page-enter">
       <header className="p-6 border-b flex items-center justify-between gap-4 sticky top-0 bg-background/80 backdrop-blur-md z-10 overflow-x-auto">
         <div className="flex items-center gap-6">
           <Link href="/">
@@ -70,7 +70,7 @@ export default function FlashcardClient({ flashcards }: FlashcardClientProps) {
           <Button
             variant="outline"
             size="lg"
-            className="flex-1 gap-2 border-2 h-14"
+            className="flex-1 gap-2 border-2 h-14 btn-lift"
             disabled={current === 0}
             onClick={() => setCurrent(current - 1)}
           >
@@ -80,7 +80,7 @@ export default function FlashcardClient({ flashcards }: FlashcardClientProps) {
           <Button
             variant="outline"
             size="lg"
-            className="flex-1 gap-2 border-2 h-14"
+            className="flex-1 gap-2 border-2 h-14 btn-lift"
             disabled={current === data.length - 1}
             onClick={() => setCurrent(current + 1)}
           >

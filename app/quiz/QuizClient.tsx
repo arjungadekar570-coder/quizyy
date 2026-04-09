@@ -62,7 +62,7 @@ export default function QuizClient({ questions }: QuizClientProps) {
   };
 
   return (
-    <div className="min-h-screen bg-background text-foreground flex flex-col">
+    <div className="min-h-screen bg-background text-foreground flex flex-col page-enter">
       <header className="p-6 border-b flex items-center justify-between gap-8 sticky top-0 bg-background/80 backdrop-blur-md z-10">
         <div className="flex items-center gap-4">
           <Link href="/">
@@ -100,7 +100,7 @@ export default function QuizClient({ questions }: QuizClientProps) {
           <Button
             variant="outline"
             size="lg"
-            className="gap-2 border-2 h-14 px-8"
+            className="gap-2 border-2 h-14 px-8 btn-lift"
             disabled={current === 0}
             onClick={() => setCurrent(current - 1)}
           >

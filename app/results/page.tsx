@@ -51,7 +51,7 @@ function ResultsContent() {
   const total = results.length;
 
   return (
-    <div className="min-h-screen bg-background text-foreground p-6 md:p-12 flex flex-col items-center">
+    <div className="min-h-screen bg-background text-foreground p-6 md:p-12 flex flex-col items-center page-enter">
       <div className="w-full max-w-3xl space-y-12">
         <div className="flex justify-start">
           <Link href="/">
@@ -82,7 +82,8 @@ function ResultsContent() {
             {results.map((result, i) => (
               <Card
                 key={i}
-                className={`border-2 ${result.isCorrect ? "bg-primary/5" : "bg-destructive/5"}`}
+                style={{ animationDelay: `${i * 60}ms` }}
+                className={`border-2 animate-fade-up ${result.isCorrect ? "bg-primary/5" : "bg-destructive/5"}`}
               >
                 <CardContent className="p-6">
                   <div className="flex items-start gap-4">

@@ -10,32 +10,26 @@ import { generateContent } from "@/app/actions";
 
 export default function Home() {
   const [mode, setMode] = useState<"quiz" | "flashcard">("quiz");
-  const [size] = useState("10"); // forced to 10 per spec
+  const [size] = useState("10");
   const [notes, setNotes] = useState("");
   const [file, setFile] = useState<File | null>(null);
   const [isPending, startTransition] = useTransition();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  // ── File handling ────────────────────────────────────────────────────────────
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selected = e.target.files?.[0];
     if (!selected) return;
-
-    // For .txt files, read content client-side and populate the textarea
     if (selected.name.toLowerCase().endsWith(".txt")) {
       const reader = new FileReader();
       reader.onload = (ev) => {
         setNotes(ev.target?.result as string);
-        setFile(null); // no need to send the file; notes has the text
+        setFile(null);
       };
       reader.readAsText(selected);
     } else {
-      // PDF / DOCX — keep as file, extraction happens server-side
       setFile(selected);
-      setNotes(""); // clear textarea to avoid confusion
+      setNotes("");
     }
-
-    // Reset the input so the same file can be re-selected if needed
     e.target.value = "";
   };
 
@@ -44,7 +38,6 @@ export default function Home() {
     if (fileInputRef.current) fileInputRef.current.value = "";
   };
 
-  // ── Submit ───────────────────────────────────────────────────────────────────
   const handleGenerate = () => {
     if (isPending) return;
     startTransition(async () => {
@@ -61,23 +54,29 @@ export default function Home() {
   return (
     <div className="flex h-screen bg-background text-foreground">
       <Sidebar />
-      <main className="flex-1 flex flex-col items-center justify-center p-6 md:p-12">
+
+      <main className="flex-1 flex flex-col items-center justify-center p-6 md:p-12 overflow-hidden">
         <div className="w-full max-w-4xl space-y-12 text-center">
+
+          {/* ── Hero heading ── */}
           <div className="space-y-4">
-            <h1 className="text-6xl font-black tracking-tight">Quizzy AI</h1>
-            <p className="text-xl text-muted-foreground font-medium italic">
+            <h1 className="text-6xl font-black tracking-tight animate-fade-up">
+              Quizzy AI
+            </h1>
+            <p className="text-xl text-muted-foreground font-medium italic animate-stagger-1">
               Learn any topic with fun
             </p>
           </div>
 
-          <Card className="border-2 shadow-xl overflow-hidden bg-card">
+          {/* ── Main card ── */}
+          <Card className="border-2 shadow-xl overflow-hidden bg-card animate-stagger-2">
             <CardContent className="p-0 flex flex-col md:flex-row h-[400px]">
-              {/* ── Drop / Input area ─────────────────────────────────────────── */}
+
+              {/* Drop / Input area */}
               <div
                 className="flex-1 border-r-2 p-8 flex flex-col items-center justify-center space-y-4 bg-muted/30 hover:bg-muted/50 transition-colors cursor-pointer group"
                 onClick={() => !file && fileInputRef.current?.click()}
               >
-                {/* Hidden real file input */}
                 <input
                   ref={fileInputRef}
                   type="file"
@@ -87,14 +86,11 @@ export default function Home() {
                 />
 
                 {file ? (
-                  /* File selected indicator */
-                  <div className="flex flex-col items-center gap-3 w-full max-w-xs">
+                  <div className="flex flex-col items-center gap-3 w-full max-w-xs animate-pop">
                     <div className="w-16 h-16 rounded-full bg-background flex items-center justify-center shadow-sm">
                       <FileText className="w-8 h-8 text-primary" />
                     </div>
-                    <p className="font-bold text-lg truncate max-w-full px-4">
-                      {file.name}
-                    </p>
+                    <p className="font-bold text-lg truncate max-w-full px-4">{file.name}</p>
                     <p className="text-sm text-muted-foreground">
                       {(file.size / 1024).toFixed(1)} KB · ready to extract
                     </p>
@@ -102,25 +98,20 @@ export default function Home() {
                       variant="ghost"
                       size="sm"
                       className="gap-1 text-destructive hover:text-destructive"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        clearFile();
-                      }}
+                      onClick={(e) => { e.stopPropagation(); clearFile(); }}
                     >
                       <X className="w-4 h-4" /> Remove file
                     </Button>
                   </div>
                 ) : (
-                  /* Default upload + textarea */
                   <>
-                    <div className="w-16 h-16 rounded-full bg-background flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform">
+                    {/* Floating upload icon */}
+                    <div className="w-16 h-16 rounded-full bg-background flex items-center justify-center shadow-sm animate-float group-hover:scale-110 transition-transform">
                       <Upload className="w-8 h-8 text-primary" />
                     </div>
                     <div className="text-center">
                       <p className="font-bold text-lg">Drop your notes here</p>
-                      <p className="text-sm text-muted-foreground">
-                        PDF, DOCX, or TXT
-                      </p>
+                      <p className="text-sm text-muted-foreground">PDF, DOCX, or TXT</p>
                     </div>
                     <div
                       className="w-full max-w-xs mt-4"
@@ -128,7 +119,7 @@ export default function Home() {
                     >
                       <Textarea
                         placeholder="Or paste your notes here…"
-                        className="resize-none bg-background border-2 min-h-[100px]"
+                        className="resize-none bg-background border-2 min-h-[100px] transition-shadow focus:shadow-md"
                         value={notes}
                         onChange={(e) => setNotes(e.target.value)}
                       />
@@ -137,16 +128,16 @@ export default function Home() {
                 )}
               </div>
 
-              {/* ── Controls ─────────────────────────────────────────────────── */}
+              {/* Controls */}
               <div className="w-full md:w-80 p-8 flex flex-col justify-center space-y-6 bg-card">
-                <div className="space-y-3">
+                <div className="space-y-3 animate-stagger-3">
                   <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground">
                     Select Mode
                   </p>
                   <div className="grid grid-cols-2 gap-2">
                     <Button
                       variant={mode === "quiz" ? "default" : "outline"}
-                      className="h-12 border-2"
+                      className="h-12 border-2 btn-lift transition-all duration-200"
                       onClick={() => setMode("quiz")}
                       disabled={isPending}
                     >
@@ -154,7 +145,7 @@ export default function Home() {
                     </Button>
                     <Button
                       variant={mode === "flashcard" ? "default" : "outline"}
-                      className="h-12 border-2"
+                      className="h-12 border-2 btn-lift transition-all duration-200"
                       onClick={() => setMode("flashcard")}
                       disabled={isPending}
                     >
@@ -163,7 +154,7 @@ export default function Home() {
                   </div>
                 </div>
 
-                <div className="space-y-3">
+                <div className="space-y-3 animate-stagger-4">
                   <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground">
                     Quiz Size
                   </p>
@@ -172,8 +163,8 @@ export default function Home() {
                       <Button
                         key={s}
                         variant={size === s ? "secondary" : "ghost"}
-                        className={`flex-1 border-2 ${size === s ? "border-primary" : "border-transparent"}`}
-                        disabled // locked to 10 per spec
+                        className={`flex-1 border-2 transition-all duration-150 ${size === s ? "border-primary scale-105" : "border-transparent"}`}
+                        disabled
                       >
                         {s}
                       </Button>
@@ -184,20 +175,21 @@ export default function Home() {
                 <div className="pt-4 flex justify-end">
                   <Button
                     size="icon"
-                    className="w-16 h-16 rounded-full shadow-lg group"
+                    className="w-16 h-16 rounded-full shadow-lg group btn-lift"
                     onClick={handleGenerate}
                     disabled={!canSubmit}
                   >
                     {isPending ? (
                       <Loader2 className="w-8 h-8 animate-spin" />
                     ) : (
-                      <ArrowRight className="w-8 h-8 group-hover:translate-x-1 transition-transform" />
+                      <ArrowRight className="w-8 h-8 group-hover:translate-x-1 transition-transform duration-200" />
                     )}
                   </Button>
                 </div>
               </div>
             </CardContent>
           </Card>
+
         </div>
       </main>
     </div>

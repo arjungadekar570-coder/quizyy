@@ -45,6 +45,19 @@
     --radius-2xl: calc(var(--radius) * 1.8);
     --radius-3xl: calc(var(--radius) * 2.2);
     --radius-4xl: calc(var(--radius) * 2.6);
+
+    /* ── Animation durations ─────────────────────────────────────────── */
+    --animate-fade-up:       fade-up      0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+    --animate-fade-in:       fade-in      0.4s ease both;
+    --animate-slide-in-left: slide-in-left 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+    --animate-pop:           pop          0.35s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+    --animate-score-draw:    score-draw   1.2s cubic-bezier(0.16, 1, 0.3, 1) both;
+    --animate-shimmer:       shimmer      2s linear infinite;
+    --animate-float:         float        4s ease-in-out infinite;
+    --animate-stagger-1:     fade-up      0.5s 0.05s cubic-bezier(0.16, 1, 0.3, 1) both;
+    --animate-stagger-2:     fade-up      0.5s 0.10s cubic-bezier(0.16, 1, 0.3, 1) both;
+    --animate-stagger-3:     fade-up      0.5s 0.15s cubic-bezier(0.16, 1, 0.3, 1) both;
+    --animate-stagger-4:     fade-up      0.5s 0.20s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 :root {
@@ -99,17 +112,88 @@
     }
 }
 
+/* ── Keyframes ────────────────────────────────────────────────────────────── */
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0);    }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes slide-in-left {
+  from { opacity: 0; transform: translateX(-24px); }
+  to   { opacity: 1; transform: translateX(0);     }
+}
+
+@keyframes pop {
+  from { opacity: 0; transform: scale(0.88); }
+  to   { opacity: 1; transform: scale(1);    }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0);    }
+  50%       { transform: translateY(-8px); }
+}
+
+@keyframes shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position:  200% center; }
+}
+
+@keyframes score-in {
+  from { opacity: 0; transform: scale(0.6) rotate(-10deg); }
+  to   { opacity: 1; transform: scale(1)   rotate(0deg);   }
+}
+
+/* ── Utility animation classes ────────────────────────────────────────────── */
 @layer utilities {
-  .perspective-1000 {
-    perspective: 1000px;
+  /* 3D card helpers */
+  .perspective-1000 { perspective: 1000px; }
+  .preserve-3d      { transform-style: preserve-3d; }
+  .backface-hidden  { backface-visibility: hidden; }
+  .rotate-y-180     { transform: rotateY(180deg); }
+
+  /* Entrance animations */
+  .animate-fade-up        { animation: var(--animate-fade-up); }
+  .animate-fade-in        { animation: var(--animate-fade-in); }
+  .animate-slide-in-left  { animation: var(--animate-slide-in-left); }
+  .animate-pop            { animation: var(--animate-pop); }
+  .animate-float          { animation: var(--animate-float); }
+  .animate-score-in       { animation: score-in 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both; }
+
+  /* Staggered children */
+  .animate-stagger-1 { animation: var(--animate-stagger-1); }
+  .animate-stagger-2 { animation: var(--animate-stagger-2); }
+  .animate-stagger-3 { animation: var(--animate-stagger-3); }
+  .animate-stagger-4 { animation: var(--animate-stagger-4); }
+
+  /* Shimmer loader */
+  .animate-shimmer {
+    background: linear-gradient(
+      90deg,
+      hsl(var(--muted) / 0.4) 25%,
+      hsl(var(--muted) / 0.7) 50%,
+      hsl(var(--muted) / 0.4) 75%
+    );
+    background-size: 200% auto;
+    animation: shimmer 1.6s linear infinite;
   }
-  .preserve-3d {
-    transform-style: preserve-3d;
+
+  /* Smooth page wrapper */
+  .page-enter { animation: fade-up 0.45s cubic-bezier(0.16, 1, 0.3, 1) both; }
+
+  /* Interactive button lift */
+  .btn-lift {
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
   }
-  .backface-hidden {
-    backface-visibility: hidden;
+  .btn-lift:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px -4px oklch(0 0 0 / 0.15);
   }
-  .rotate-y-180 {
-    transform: rotateY(180deg);
+  .btn-lift:active:not(:disabled) {
+    transform: translateY(0);
   }
 }
