@@ -68,9 +68,21 @@ export default function Home() {
         <div className="w-full max-w-4xl space-y-12 text-center">
           {/* Error banner */}
           {error && (
-            <div className="flex items-center gap-3 p-4 rounded-xl border-2 border-destructive/40 bg-destructive/10 text-destructive text-sm font-medium animate-pop">
-              <AlertCircle className="w-5 h-5 shrink-0" />
-              <span>{error}</span>
+            <div className="flex items-start gap-3 p-4 rounded-xl border-2 border-destructive/40 bg-destructive/10 text-destructive text-sm font-medium animate-pop text-left">
+              <AlertCircle className="w-5 h-5 shrink-0 mt-0.5" />
+              <div className="space-y-1">
+                <p>{error}</p>
+                {error.includes("GROQ_API_KEY") && (
+                  <a
+                    href="https://console.groq.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="underline underline-offset-2 font-bold hover:opacity-70 transition-opacity"
+                  >
+                    → Get your free API key at console.groq.com
+                  </a>
+                )}
+              </div>
             </div>
           )}
 

@@ -82,6 +82,14 @@ export async function generateContent(formData: FormData) {
     );
   }
 
+  // Validate Groq API key before attempting generation
+  const groqKey = process.env.GROQ_API_KEY;
+  if (!groqKey || groqKey === "your_groq_api_key_here") {
+    throw new Error(
+      "GROQ_API_KEY is not set. Open .env.local in the project root and add your key from console.groq.com"
+    );
+  }
+
   // Generate content with Groq
   const items = await generateQuizOrFlashcard(notes.trim(), mode, 10);
 
