@@ -47,17 +47,17 @@
     --radius-4xl: calc(var(--radius) * 2.6);
 
     /* ── Animation durations ─────────────────────────────────────────── */
-    --animate-fade-up:       fade-up      0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
-    --animate-fade-in:       fade-in      0.4s ease both;
-    --animate-slide-in-left: slide-in-left 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
-    --animate-pop:           pop          0.35s cubic-bezier(0.34, 1.56, 0.64, 1) both;
-    --animate-score-draw:    score-draw   1.2s cubic-bezier(0.16, 1, 0.3, 1) both;
-    --animate-shimmer:       shimmer      2s linear infinite;
-    --animate-float:         float        4s ease-in-out infinite;
-    --animate-stagger-1:     fade-up      0.5s 0.05s cubic-bezier(0.16, 1, 0.3, 1) both;
-    --animate-stagger-2:     fade-up      0.5s 0.10s cubic-bezier(0.16, 1, 0.3, 1) both;
-    --animate-stagger-3:     fade-up      0.5s 0.15s cubic-bezier(0.16, 1, 0.3, 1) both;
-    --animate-stagger-4:     fade-up      0.5s 0.20s cubic-bezier(0.16, 1, 0.3, 1) both;
+    --animate-fade-up:       fade-up      0.25s cubic-bezier(0.16, 1, 0.3, 1) both;
+    --animate-fade-in:       fade-in      0.2s ease both;
+    --animate-slide-in-left: slide-in-left 0.22s cubic-bezier(0.16, 1, 0.3, 1) both;
+    --animate-pop:           pop          0.2s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+    --animate-score-draw:    score-draw   0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+    --animate-shimmer:       shimmer      1.4s linear infinite;
+    --animate-float:         float        3.5s ease-in-out infinite;
+    --animate-stagger-1:     fade-up      0.25s 0.03s cubic-bezier(0.16, 1, 0.3, 1) both;
+    --animate-stagger-2:     fade-up      0.25s 0.06s cubic-bezier(0.16, 1, 0.3, 1) both;
+    --animate-stagger-3:     fade-up      0.25s 0.09s cubic-bezier(0.16, 1, 0.3, 1) both;
+    --animate-stagger-4:     fade-up      0.25s 0.12s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 :root {
@@ -162,7 +162,7 @@
   .animate-slide-in-left  { animation: var(--animate-slide-in-left); }
   .animate-pop            { animation: var(--animate-pop); }
   .animate-float          { animation: var(--animate-float); }
-  .animate-score-in       { animation: score-in 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both; }
+  .animate-score-in       { animation: score-in 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) both; }
 
   /* Staggered children */
   .animate-stagger-1 { animation: var(--animate-stagger-1); }
@@ -183,11 +183,11 @@
   }
 
   /* Smooth page wrapper */
-  .page-enter { animation: fade-up 0.45s cubic-bezier(0.16, 1, 0.3, 1) both; }
+  .page-enter { animation: fade-up 0.22s cubic-bezier(0.16, 1, 0.3, 1) both; }
 
   /* Interactive button lift */
   .btn-lift {
-    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    transition: transform 0.1s ease, box-shadow 0.1s ease;
   }
   .btn-lift:hover:not(:disabled) {
     transform: translateY(-2px);

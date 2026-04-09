@@ -18,7 +18,7 @@ export function ScoreCircle({ score, total }: ScoreCircleProps) {
   useEffect(() => {
     const timeout = setTimeout(() => {
       setOffset(circumference - (percentage / 100) * circumference);
-    }, 120); // slight delay so the page is visible first
+    }, 60); // slight delay so the page is visible first
     return () => clearTimeout(timeout);
   }, [circumference, percentage]);
 
@@ -27,12 +27,12 @@ export function ScoreCircle({ score, total }: ScoreCircleProps) {
   useEffect(() => {
     if (score === 0) return;
     let current = 0;
-    const step = Math.ceil(score / 20);
+    const step = Math.ceil(score / 12);
     const interval = setInterval(() => {
       current = Math.min(current + step, score);
       setDisplayScore(current);
       if (current >= score) clearInterval(interval);
-    }, 40);
+    }, 30);
     return () => clearInterval(interval);
   }, [score]);
 
@@ -60,7 +60,7 @@ export function ScoreCircle({ score, total }: ScoreCircleProps) {
           strokeDasharray={circumference}
           strokeDashoffset={offset}
           strokeLinecap="round"
-          className="text-primary transition-[stroke-dashoffset] duration-[1200ms] ease-[cubic-bezier(0.16,1,0.3,1)]"
+          className="text-primary transition-[stroke-dashoffset] duration-[700ms] ease-[cubic-bezier(0.16,1,0.3,1)]"
         />
       </svg>
 

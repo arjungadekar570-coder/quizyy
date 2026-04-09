@@ -12,7 +12,7 @@ interface QuizQuestionProps {
 
 export function QuizQuestion({ question, options, selectedOption, onSelect }: QuizQuestionProps) {
   const letters = ["A", "B", "C", "D"];
-  const delays = ["0ms", "60ms", "120ms", "180ms"];
+  const delays = ["0ms", "30ms", "60ms", "90ms"];
 
   return (
     <div className="w-full max-w-3xl mx-auto space-y-8">

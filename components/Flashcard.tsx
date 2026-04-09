@@ -20,7 +20,7 @@ export function Flashcard({ front, back }: FlashcardProps) {
       <div
         className={cn(
           "relative w-full h-full preserve-3d",
-          "transition-transform duration-[600ms] [transition-timing-function:cubic-bezier(0.34,1.26,0.64,1)]",
+          "transition-transform duration-[300ms] [transition-timing-function:cubic-bezier(0.34,1.26,0.64,1)]",
           isFlipped ? "rotate-y-180" : ""
         )}
       >

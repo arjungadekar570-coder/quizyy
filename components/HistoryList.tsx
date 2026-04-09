@@ -51,7 +51,7 @@ export function HistoryList() {
         <Button
           key={item._id}
           variant="ghost"
-          style={{ animationDelay: `${i * 40}ms` }}
+          style={{ animationDelay: `${i * 20}ms` }}
           className="w-full justify-start font-normal text-sm h-auto py-2 px-3 gap-2 group animate-slide-in-left transition-all duration-150 hover:translate-x-1"
           onClick={() => handleClick(item)}
           title={item.topic}
