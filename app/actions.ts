@@ -18,7 +18,7 @@ function extractPdfText(buffer: Buffer): Promise<string> {
           .map((page: any) =>
             (page.Texts ?? [])
               // eslint-disable-next-line @typescript-eslint/no-explicit-any
-              .map((t: any) => decodeURIComponent(t.R?.[0]?.T ?? ""))
+              .map((t: any) => { try { return decodeURIComponent(t.R?.[0]?.T ?? ""); } catch { return ""; } })
               .join(" ")
           )
           .join("\n");
@@ -89,14 +89,18 @@ export async function generateContent(formData: FormData) {
   const topic = deriveTopic(notes, file && file.size > 0 ? file : null);
 
   // Save to Convex history via the HTTP API (works in Server Actions)
-  await fetchMutation(api.history.saveHistory, {
-    topic,
-    mode,
-    data:
-      mode === "quiz"
-        ? { kind: "quiz", items: items as QuizQuestion[] }
-        : { kind: "flashcard", items: items as Flashcard[] },
-  });
+  await fetchMutation(
+    api.history.saveHistory,
+    {
+      topic,
+      mode,
+      data:
+        mode === "quiz"
+          ? { kind: "quiz", items: items as QuizQuestion[] }
+          : { kind: "flashcard", items: items as Flashcard[] },
+    },
+    { url: process.env.NEXT_PUBLIC_CONVEX_URL }
+  );
 
   // Redirect to the appropriate page with data in URL
   const encoded = encodeURIComponent(JSON.stringify(items));
