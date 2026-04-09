@@ -7,6 +7,7 @@ import { ArrowRight, Upload, Loader2, FileText, X } from "lucide-react";
 import { useRef, useState, useTransition } from "react";
 import { Textarea } from "@/components/ui/textarea";
 import { generateContent } from "@/app/actions";
+import { AlertCircle } from "lucide-react";
 
 export default function Home() {
   const [mode, setMode] = useState<"quiz" | "flashcard">("quiz");
@@ -14,6 +15,7 @@ export default function Home() {
   const [notes, setNotes] = useState("");
   const [file, setFile] = useState<File | null>(null);
   const [isPending, startTransition] = useTransition();
+  const [error, setError] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -40,12 +42,19 @@ export default function Home() {
 
   const handleGenerate = () => {
     if (isPending) return;
+    setError(null);
     startTransition(async () => {
-      const fd = new FormData();
-      fd.append("notes", notes);
-      fd.append("mode", mode);
-      if (file) fd.append("file", file);
-      await generateContent(fd);
+      try {
+        const fd = new FormData();
+        fd.append("notes", notes);
+        fd.append("mode", mode);
+        if (file) fd.append("file", file);
+        await generateContent(fd);
+      } catch (e: unknown) {
+        const msg = e instanceof Error ? e.message : "Something went wrong. Please try again.";
+        // Ignore Next.js redirect "errors" — they're not real errors
+        if (!msg.includes("NEXT_REDIRECT")) setError(msg);
+      }
     });
   };
 
@@ -57,6 +66,13 @@ export default function Home() {
 
       <main className="flex-1 flex flex-col items-center justify-center p-6 md:p-12 overflow-hidden">
         <div className="w-full max-w-4xl space-y-12 text-center">
+          {/* Error banner */}
+          {error && (
+            <div className="flex items-center gap-3 p-4 rounded-xl border-2 border-destructive/40 bg-destructive/10 text-destructive text-sm font-medium animate-pop">
+              <AlertCircle className="w-5 h-5 shrink-0" />
+              <span>{error}</span>
+            </div>
+          )}
 
           {/* ── Hero heading ── */}
           <div className="space-y-4">
